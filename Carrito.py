@@ -15,7 +15,9 @@ inventario = {
 
 }
 
-salir = False
+salir  = False
+
+modo_de_busqueda = 1
 
 while salir == False:    
     os.system("cls")
@@ -37,14 +39,32 @@ while salir == False:
     """)
 
     op = input(":   ")
+    menu = True
     os.system("cls")
 
     if op == "3":
         salir = True
     
     elif op == "1":
-        fun_car.detalle(inventario)
-        op = input("")
+        while menu == True:
+            
+            if modo_de_busqueda == 1:
+                fun_car.detalle(inventario)
+                op = input("\n\n1) Ver productos en breve\n2) Buscar producto\n3) Regresar\n:   ")
+            else:
+                fun_car.breve(inventario)
+                op = input("\n\n1) Ver productos en detalle\n2) Buscar producto\n3) Regresar\n:   ")
+            os.system("cls")
+            if op == "3":
+                menu = False
+            elif op == "1":
+                if modo_de_busqueda == 1:
+                    modo_de_busqueda = 2
+                else:
+                    modo_de_busqueda = 1
+            else:
+                print("Opcion no valida. Precione cualquier tecla para continuar")
+                op=input(": ")
 
     else:
         print("Opcion no valida. Precione cualquier tecla para continuar")
