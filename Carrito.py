@@ -15,16 +15,13 @@ inventario = {
 
 }
 
-siete = False
+salir = False
 
-while siete == False:    
-
+while salir == False:    
     os.system("cls")
 
     carrito = {
-
     "total" : 0
-
     }
 
     msj = ""
@@ -43,7 +40,7 @@ while siete == False:
     os.system("cls")
 
     if op == "3":
-        siete = True
+        salir = True
     
     elif op == "1":
         fun_car.detalle(inventario)
