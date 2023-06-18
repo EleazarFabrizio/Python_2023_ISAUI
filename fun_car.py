@@ -1,10 +1,5 @@
 
-## PRE-ALPHA 0.0.1
-
-import os
-import fun_car
-
-inventario = {
+dicfggfgc = {
 
 "131" : {"nombre" : "Coca-Cola 500ml" , "marca" : "Coca-Cola" , "precio" : 200 , "stock" : 50 , "caracteristicas" : "Exceso de azucares"},
 "162" : {"nombre" : "Coca-Cola 2L" , "marca" : "Coca-Cola" , "precio" : 700 , "stock" : 50 , "caracteristicas" : "Exceso de azucares"},
@@ -15,39 +10,17 @@ inventario = {
 
 }
 
-siete = False
 
-while siete == False:    
+def detalle(dicc):
 
-    os.system("cls")
+    for z in range(0,len(dicc)):
+        pass
 
-    carrito = {
+    msj = "Codigo | Nombre | Marca | Precio | Stock | Caracteristicas\n\n"
+    for i in dicc:
+        msj = msj + " " + str(i) + "   | "
+        for k in dicc[i]:
+            msj = msj + str(dicc[i][k]) + " | "
+        msj += "\n"
 
-    "total" : 0
-
-    }
-
-    msj = ""
-
-    print(f"""
-    Bienvnido al carrito mas fachero del mundo mundial.
-
-    {msj}
-
-    1) Mostrar productos en detalle:
-    2) Mostrar información breve del producto:
-    3) Buscar producto por código:
-    4) Realizar compra:
-    5) Editar carrito:
-    6) Finalizar compra:
-    7) Salir:
-    """)
-
-    op = input(":   ")
-
-    if op == "7":
-        siete = True
-    
-    elif op == "1":
-        fun_car.detalle(inventario)
-        op = input("")
+    print (msj)
