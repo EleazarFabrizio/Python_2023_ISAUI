@@ -34,20 +34,21 @@ while siete == False:
 
     {msj}
 
-    1) Mostrar productos en detalle:
-    2) Mostrar información breve del producto:
-    3) Buscar producto por código:
-    4) Realizar compra:
-    5) Editar carrito:
-    6) Finalizar compra:
-    7) Salir:
+    1) Ver productos
+    2) Ver carrito
+    3) Salir:
     """)
 
     op = input(":   ")
+    os.system("cls")
 
-    if op == "7":
+    if op == "3":
         siete = True
     
     elif op == "1":
         fun_car.detalle(inventario)
         op = input("")
+
+    else:
+        print("Opcion no valida. Precione cualquier tecla para continuar")
+        op=input(": ")

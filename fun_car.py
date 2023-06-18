@@ -1,17 +1,7 @@
 
-dicfggfgc = {
-
-"131" : {"nombre" : "Coca-Cola 500ml" , "marca" : "Coca-Cola" , "precio" : 200 , "stock" : 50 , "caracteristicas" : "Exceso de azucares"},
-"162" : {"nombre" : "Coca-Cola 2L" , "marca" : "Coca-Cola" , "precio" : 700 , "stock" : 50 , "caracteristicas" : "Exceso de azucares"},
-"245" : {"nombre" : "Pringles" , "marca" : "Kellogg's" , "precio" : 500 , "stock" : 23 , "caracteristicas" : "Exceso de azucares y grasas"},
-"371" : {"nombre" : "Pringles queso y cebolla" , "marca" : "Kellogg's" , "precio" : 670 , "stock" : 10 , "caracteristicas" : "Exceso de ricura"},
-"490" : {"nombre" : "Doritos" , "marca" : "Pepsico" , "precio" : 570 , "stock" : 48 , "caracteristicas" : "Exceso en grasas"},
-"490" : {"nombre" : "Lays" , "marca" : "Pepsico" , "precio" : 340 , "stock" : 47 , "caracteristicas" : "Exceso en grasas"},
-
-}
 
 
-def detalle(dicc):
+def detalle3(dicc):
 
     for z in range(0,len(dicc)):
         pass
@@ -24,3 +14,92 @@ def detalle(dicc):
         msj += "\n"
 
     print (msj)
+
+"""etiqueta = ["Codigo","Nombre","Marca","Cantidad","nose"]
+canvas = [6,6,5,8,4]
+
+productos = [[6789,"frijoles","toyota",9,"perro"],[0,"macarrones con queso","fordensio",9999999999,"uwu"]]
+
+for i in range(0,len(productos)):
+    for k in range(0,len(productos[i])):
+        if len(str(productos[i][k])) > canvas[k]:
+            canvas[k]=len(str(productos[i][k]))
+            #print(productos[i][k])
+            #print(len(str(productos[i][k])))
+
+#print(canvas)
+
+msj = ""
+
+for i in range(0,len(etiqueta)):
+    dividir = (canvas[i] - len(str(etiqueta[i]))) / 2
+    msj+= " "*(round(dividir - 0.5)+1)
+    msj+= str(etiqueta[i])
+    msj+= " "*(round(dividir + 0.5)+1)
+    msj+="|"
+msj+="\n"
+
+for i in range(0,len(productos)):
+    for k in range(0,len(productos[i])):
+        dividir = (canvas[k] - len(str(productos[i][k]))) / 2
+        msj+= " "*(round(dividir - 0.5)+1)
+        msj+= str(productos[i][k])
+        msj+= " "*(round(dividir + 0.5)+1)
+        msj+= "|"
+    msj+="\n"
+
+print(msj)"""
+
+def detalle(dicc):
+    etiqueta = ["Codigo","Nombre","Marca","Precio","Stock","caracteristicas"]
+    espacios = [6,6,5,6,5,15]
+
+    for i in dicc:
+        con = 1
+
+        if len(str(i)) > espacios[0]:
+            espacios[0] = len(str(i))
+
+        for k in dicc[i]:
+            if len(str(dicc[i][k])) > espacios[con]:
+                espacios[con]=len(str(dicc[i][k]))
+            con+=1
+    
+    print(espacios)
+
+    msj = "|"
+
+    for i in range(0,len(etiqueta)):
+        dividir = (espacios[i] - len(str(etiqueta[i]))) / 2
+        msj+= " "*(round(dividir - 0.5)+1)
+        msj+= str(etiqueta[i])
+        msj+= " "*(round(dividir + 0.5)+1)
+        msj+="|"
+    msj+="\n|"
+    for i in range(0,6):
+        msj+= " "*(espacios[i]+2)
+        msj+="|"
+    msj+="\n|"
+
+    decorar = 0
+    for i in dicc:
+        decorar += 1
+        con = 1
+
+        dividir = (espacios[0] - len(str(i))) / 2
+        msj+= " "*(round(dividir - 0.5)+1)
+        msj+= str(i)
+        msj+= " "*(round(dividir + 0.5)+1)
+        msj+= "|"
+
+        for k in dicc[i]:
+            dividir = (espacios[con] - len(str(dicc[i][k]))) / 2
+            msj+= " "*(round(dividir - 0.5)+1)
+            msj+= str(dicc[i][k])
+            msj+= " "*(round(dividir + 0.5)+1)
+            msj+= "|"
+            con += 1
+        if decorar < 5:
+            msj+="\n|"
+
+    print(msj)
