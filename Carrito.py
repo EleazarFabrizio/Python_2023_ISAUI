@@ -26,12 +26,12 @@ while salir == False:
     "total" : 0
     }
 
-    msj = ""
+    carrito_print = ""
 
     print(f"""
     Bienvnido al carrito mas fachero del mundo mundial.
 
-    {msj}
+    {carrito_print}
 
     1) Ver productos
     2) Ver carrito
@@ -40,32 +40,20 @@ while salir == False:
 
     op = input(":   ")
     menu = True
-    os.system("cls")
 
     if op == "3":
         salir = True
+        print ("bye bye!")
     
     elif op == "1":
-        while menu == True:
-            
-            if modo_de_busqueda == 1:
-                fun_car.detalle(inventario)
-                op = input("\n\n1) Ver productos en breve\n2) Buscar producto\n3) Regresar\n:   ")
-            else:
-                fun_car.breve(inventario)
-                op = input("\n\n1) Ver productos en detalle\n2) Buscar producto\n3) Regresar\n:   ")
-            os.system("cls")
-            if op == "3":
-                menu = False
-            elif op == "1":
-                if modo_de_busqueda == 1:
-                    modo_de_busqueda = 2
-                else:
-                    modo_de_busqueda = 1
-            else:
-                print("Opcion no valida. Precione cualquier tecla para continuar")
-                op=input(": ")
+        modo_de_busqueda=fun_car.op1(inventario,modo_de_busqueda,menu)
+
+    elif op == "2":
+        modo_de_busqueda=fun_car.op2(inventario,modo_de_busqueda,carrito,menu)
+
+
 
     else:
         print("Opcion no valida. Precione cualquier tecla para continuar")
         op=input(": ")
+        os.system("cls")
