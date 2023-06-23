@@ -6,25 +6,29 @@ import fun_car
 
 inventario = {
 
-"131" : {"nombre" : "Coca-Cola 500ml" , "marca" : "Coca-Cola" , "precio" : 200 , "stock" : 50 , "caracteristicas" : "Exceso de azucares"},
-"162" : {"nombre" : "Coca-Cola 2L" , "marca" : "Coca-Cola" , "precio" : 700 , "stock" : 50 , "caracteristicas" : "Exceso de azucares"},
-"245" : {"nombre" : "Pringles" , "marca" : "Kellogg's" , "precio" : 500 , "stock" : 23 , "caracteristicas" : "Exceso de azucares y grasas"},
-"371" : {"nombre" : "Pringles queso y cebolla" , "marca" : "Kellogg's" , "precio" : 670 , "stock" : 10 , "caracteristicas" : "Exceso de ricura"},
-"490" : {"nombre" : "Doritos" , "marca" : "Pepsico" , "precio" : 570 , "stock" : 48 , "caracteristicas" : "Exceso en grasas"},
-"490" : {"nombre" : "Lays" , "marca" : "Pepsico" , "precio" : 340 , "stock" : 47 , "caracteristicas" : "Exceso en grasas"},
+"131" : {"Nombre" : "Coca-Cola 500ml" , "Marca" : "Coca-Cola" , "Precio" : 200 , "Stock" : 50 , "Caracteristicas" : "Exceso de azucares"},
+"162" : {"Nombre" : "Coca-Cola 2L" , "Marca" : "Coca-Cola" , "Precio" : 700 , "Stock" : 50 , "Caracteristicas" : "Exceso de azucares"},
+"245" : {"Nombre" : "Pringles" , "Marca" : "Kellogg's" , "Precio" : 500 , "Stock" : 23 , "Caracteristicas" : "Exceso de azucares y grasas"},
+"371" : {"Nombre" : "Pringles queso y cebolla" , "Marca" : "Kellogg's" , "Precio" : 670 , "Stock" : 10 , "Caracteristicas" : "Exceso de ricura"},
+"490" : {"Nombre" : "Doritos" , "Marca" : "Pepsico" , "Precio" : 570 , "Stock" : 48 , "Caracteristicas" : "Exceso en grasas"},
+"490" : {"Nombre" : "Lays" , "Marca" : "Pepsico" , "Precio" : 340 , "Stock" : 47 , "Caracteristicas" : "Exceso en grasas"},
 
 }
+
+
+carrito = {}
 
 salir  = False
 
 modo_de_busqueda = 1
 
-while salir == False:    
-    os.system("cls")
+while salir == False:
+    total = 0
 
-    carrito = {
-    "total" : 0
-    }
+    for i in carrito:
+        total += carrito[i]["Subtotal"]
+
+    os.system("cls")
 
     carrito_print = ""
 
@@ -38,6 +42,7 @@ while salir == False:
     3) Salir:
     """)
 
+
     op = input(":   ")
     menu = True
 
@@ -46,10 +51,17 @@ while salir == False:
         print ("bye bye!")
     
     elif op == "1":
-        modo_de_busqueda=fun_car.op1(inventario,modo_de_busqueda,menu)
+        lista_return = fun_car.op1(inventario,modo_de_busqueda,menu,carrito)
+        modo_de_busqueda = lista_return[0]
+        inventario = lista_return[1]
+        carrito = lista_return[2]
 
     elif op == "2":
-        modo_de_busqueda=fun_car.op2(inventario,modo_de_busqueda,carrito,menu)
+        lista_return = fun_car.op2(inventario,modo_de_busqueda,carrito,menu,total)
+        modo_de_busqueda = lista_return[0]
+        inventario = lista_return[1]
+        carrito = lista_return[2]
+        total=[4]
 
 
 

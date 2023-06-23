@@ -1,7 +1,8 @@
 import os
 
 
-def op1(inventario,modo_de_busqueda,menu):
+def op1(inventario,modo_de_busqueda,menu,carr):
+    
     while menu == True:
         os.system("cls")
             
@@ -19,15 +20,22 @@ def op1(inventario,modo_de_busqueda,menu):
                 modo_de_busqueda = 2
             else:
                 modo_de_busqueda = 1
+            
         elif op == "2":
             os.system("cls")
-            buscar_producto(inventario,menu)
+            return_buscar = buscar_producto(inventario,menu,carr)
+            inventario = return_buscar[0]
+            carr = return_buscar[1]
+
+            #lista [1] = inventario
             
         else:
             print("Opcion no valida. Precione cualquier tecla para continuar")
             op=input(": ")
             os.system("cls")
-    return modo_de_busqueda
+
+    lista_return = [modo_de_busqueda,inventario,carr,menu]
+    return lista_return
 
 
 ##############################################################################################
@@ -35,22 +43,30 @@ def op1(inventario,modo_de_busqueda,menu):
 ##############################################################################################
 
 
-def op2(inventario,modo_de_busqueda,carr,menu):
+def op2(inventario,modo_de_busqueda,carr,menu,total):
+    
     while menu == True:
         os.system("cls")
-        mostrar_carrito(carr)
+        return_carrito = mostrar_carrito(carr,total)
+        lista_return[2] = return_carrito[1]
+        lista_return[4] = return_carrito[0]
 
         op = input("1) Ver productos\n2) Buscar producto\n3) Finalizar compra\n4) Regresar\n:   ")
         os.system("cls")
         if op == "4":
             menu = False
         elif op == "1":
-            modo_de_busqueda=op1(inventario,modo_de_busqueda,menu)
+            return_op1 = op1(inventario,modo_de_busqueda,menu,carr)
+            modo_de_busqueda = return_op1[0]
+            inventario = return_op1[1]
+            carr = return_op1[2]
         else:
             print("Opcion no valida. Precione cualquier tecla para continuar")
             op=input(": ")
             os.system("cls")
-    return modo_de_busqueda
+
+    lista_return = [modo_de_busqueda,inventario,carr,menu,total]
+    return lista_return
     
 
                 
@@ -124,24 +140,16 @@ def detalle(dicc,tipe):
 ##############################################################################################
 
 
-def mostrar_carrito(carr):
-    if carr["total"] == 0:
+def mostrar_carrito(carr,total):
+    
+    if len(carr) == 0:
         print("No tienes ningun producto en tu carrito\n\n")
+    else:
+        print(total)
+        print(carr)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    lista_return = [total,carr]
+    return
 
 
 ##############################################################################################
@@ -149,48 +157,93 @@ def mostrar_carrito(carr):
 ##############################################################################################
 
 
-def buscar_producto(inventario,menu):
+def si_o_no(txt):
+    flag = True
+    while flag == True:
+        op = input(txt)
+
+        op = op.lower()
+
+        if (op == "1") or (op == "si"):
+            answer = 1
+            flag = False
+        elif (op == "2") or (op == "no"):
+            answer = 2
+            flag = False
+        else:
+            print("opcion ingresada no es valida")
+    
+    return answer
+
+
+##############################################################################################
+##############################################################################################
+##############################################################################################
+
+
+def buscar_producto(inventario,menu,carr):
+    
     while menu == True:
 
         os.system("cls")
 
         detalle(inventario,1)
 
-        cod=input("\nPor favor ingrese un producto por codigo o nombre\n0) Regresar\n: ")
+        cod=input("\nPor favor ingrese un producto por codigo o nombre\n00) Regresar\n\n:    ")
 
-        if cod == "0":
+        if cod == "00":
             menu = False
             os.system("cls")
         
         else:
             encontrado = False
             for i in inventario:
-                if (i == cod) or (inventario[i]["nombre"] == cod):
+                if (cod in inventario) or (cod.lower() == str(inventario[i]["Nombre"]).lower()):
                     encontrado = True
+                    key = i
 
-            if encontrado == True:
-                
-                second_menu = True
-                while second_menu == True:
-                    op = input("Producto encontrado\n\n1) Agregar producto al carrito\n2) Regresar\n:   ")
-
-                    if op == "2":
-                        second_menu = False
-
-                    elif op == "1":
-                        op = input("¿Serguro desea ingresar este producto a su carrito de compra?\n\n1) SI      2) NO\n:")
-                        if (op == "1") or (op.lower() == "si"):
-                            second_menu = False
-                            print("Producto ingresado correctamente")
-                        elif (op == "2") or (op.lower() == "no"):
-                            second_menu = False
-                        else:
-                            print("Opcion no valida")
-                            
-                    else:
-                        print ("Valor ingresado no es valido\n: ")
+            if encontrado == False:
+                op = input("\nProducto no encontrado. Asegurese de ingresar un codigo valido\nPrecione cualquier tecla para continuar:  ")
             else:
-                op = input("Producto no encontrado. Asegurese de ingresar un codigo valido\nPrecione cualquier tecla para continuar:  ")
+                op = input("\nProducto encontrado\n\n1) Agregar producto al carrito\n2) Regresar\n:   ")
+
+                if op == "2":
+                    menu = False
+                if op == "1":
+                    op = si_o_no("Esta seguro de agregar este producto a su carrito?\n\n1) SI               2) NO\n\n:  ")
+                    
+                    if op == 1:
+                        agregar = True
+                        while agregar == True:
+                            num = input("Ingrese la cantidad que desea comprar\n:   ")
+
+                            if num.isnumeric() == False:
+                                print("Cantidad ingresada debe ser un numero entero")
+
+                            else:
+                                num = int(num)
+                                if num <= 0:
+                                    space = ("No se ha agregado ningun producto a su carrito\n\n:   ")
+                                    agregar = False
+
+                                elif (num > inventario[key]["Stock"]):
+                                    print("La cantidad que desea agregar supera el stock siponible")
+                                else:
+                                    subtotal = inventario[key]["Precio"] * num
+                                    carr[key]={"Codigo" : key ,"Nombre" : inventario[key]["Nombre"], "Precio x Unidad" : inventario[key]["Precio"] , "Cantidad" : num , "Subtotal" : subtotal}
+                                    agregar = False
+                    menu = False
+
+    lista_return = [inventario,carr,menu]
+    return lista_return
+
+
+##############################################################################################
+##############################################################################################
+##############################################################################################
+
+
+
 
 
 
