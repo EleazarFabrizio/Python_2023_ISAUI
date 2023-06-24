@@ -1,3 +1,2 @@
-num = "0"
 
-print(num.isnumeric())
+list = ["pollo" , "perro" , ""]
