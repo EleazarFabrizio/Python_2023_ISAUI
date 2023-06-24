@@ -30,8 +30,7 @@ def op1(inventario,modo_de_busqueda,menu,carr):
 
             
         else:
-            print("Opcion no valida. Precione cualquier tecla para continuar")
-            op=input(": ")
+            space = input("Opcion no valida. Precione ENTER para continuar\n:   ")
             os.system("cls")
 
     lista_return = [modo_de_busqueda,inventario,carr,menu]
@@ -43,7 +42,7 @@ def op1(inventario,modo_de_busqueda,menu,carr):
 ##############################################################################################
 
 
-def op2(inventario,modo_de_busqueda,carr,menu,total):
+def op2(inventario,modo_de_busqueda,carr,menu,total,historial):
     
     while menu == True:
         os.system("cls")
@@ -69,7 +68,7 @@ def op2(inventario,modo_de_busqueda,carr,menu,total):
             while buscando == True:
                 cod = input("Ingrese el codigo del producto al que desea editar\n:  ")
                 if cod in carr == False:
-                    space = input("No hay ningun producto en su carrito de compra con ese codigo. Precione ENTER")
+                    space = input("No hay ningun producto en su carrito de compra con ese codigo. Precione ENTER para continuar\n:  ")
                 else:
                     buscando = False
 
@@ -77,26 +76,46 @@ def op2(inventario,modo_de_busqueda,carr,menu,total):
                     while ingresando == True:
                         num = input("Ingrese la cantidad de items que desea eliminar de este producto en su carrito.\n:     ")
                         if num.isnumeric() == False:
-                            print("\nDebe ingresar un numero entero.\n")
+                            print("\nDebe ingresar un numero entero. Precione ENTER para continuar\n:   ")
                         else:
                             num = int(num)
+
                             if num >= carr[cod]["Cantidad"]:
                                 print("Usted estaria eliminanddo el producto por completo de su carrito.")
-                            op = si_o_no("\nSeguro desea realizar estos cambios?\n1) SI         2)NO")
+                                num = carr[cod]["Cantidad"]
+
+                            op = si_o_no("\nSeguro desea realizar estos cambios?\n1) SI         2)NO\n\n:   ")
                             if op == 2:
-                                ingresando = False
                                 space = input("No se han realizado cambios. Precione ENTER para continuar\n:  ")
+                            else:
+                                regresar = num 
+                                inventario[cod]["Stock"] = inventario[cod]["Stock"] + regresar
+                                carr[cod]["Cantidad"] = carr[cod]["Cantidad"] - num
+                                carr[cod]["Subtotal"] = carr[cod]["Cantidad"] * carr[cod]["Precio x Unidad"]
+                                if carr[cod]["Cantidad"] <= 0:
+                                    carr.pop(cod)
+                                space = input("Los cambios se han realizado exitosamente. Precione ENTER para continuar\n:  ")
+                            ingresando = False
 
 
 
-            menu = False
+            #menu = False
+        
+        elif op == "3":
+            op = si_o_no("\nEsta seguro que desea finalizar esta compra?\n1) SI          2) NO\n:    ")
+
+            if op == 1:
+                msj = f"""\nCompra numero : {str(len(historial)+1)}\nTotal de compra : ${str(total)}"""
+                msj += detalle_compra(carr)
+                historial[len(historial)+1] = msj
+                carr.clear()
+                space = input("Se ha finalizado la compra exitosamente. Precione ENTER para continuar\n:  ")
 
         else:
-            print("Opcion no valida. Precione cualquier tecla para continuar")
-            op=input(": ")
+            space = input("Opcion no valida. Precione ENTER para continuar\n:   ")
             os.system("cls")
 
-    lista_return = [modo_de_busqueda,inventario,carr,menu,total]
+    lista_return = [modo_de_busqueda,inventario,carr,menu,total,historial]
     return lista_return
     
 
@@ -107,21 +126,23 @@ def op2(inventario,modo_de_busqueda,carr,menu,total):
 
 
 def detalle(dicc,tipe):
+
     etiqueta = ["Codigo","Nombre","Marca","Precio","Stock","caracteristicas"]
     espacios = [6,6,5,6,5,15]
+    
 
     #tipo == 2 and con != 2 or con!= 5
 
     for i in dicc:
-        con = 1
-
-        if len(str(i)) > espacios[0]:
-            espacios[0] = len(str(i))
-
+        con = 0
+        dicc[i]["Precio"] = "$" + str(dicc[i]["Precio"])
         for k in dicc[i]:
+
             if len(str(dicc[i][k])) > espacios[con]:
                 espacios[con]=len(str(dicc[i][k]))
             con+=1
+
+
 
     msj = "\n|"
 
@@ -144,13 +165,7 @@ def detalle(dicc,tipe):
     decorar = 0
     for i in dicc:
         decorar += 1
-        con = 1
-
-        dividir = (espacios[0] - len(str(i))) / 2
-        msj+= " "*(round(dividir - 0.5)+1)
-        msj+= str(i)
-        msj+= " "*(round(dividir + 0.5)+1)
-        msj+= "|"
+        con = 0
 
         for k in dicc[i]:
             if (tipe != 2) or ((con != 2) and (con != 5)):
@@ -163,7 +178,64 @@ def detalle(dicc,tipe):
         if decorar < len(dicc):
             msj+="\n|"
 
+    for i in dicc:
+        dicc[i]["Precio"] = float(dicc[i]["Precio"].replace("$",""))
+
     print(msj)
+
+
+##############################################################################################
+##############################################################################################
+##############################################################################################
+
+
+def detalle_compra(dicc):
+
+    
+    etiqueta = ["Codigo","Nombre","Precio x unidad","Cantidad","Subtotal"]
+    espacios = [6,6,15,8,8]
+
+
+    for i in dicc:
+        con = 0
+        for k in dicc[i]:
+            if len(str(dicc[i][k])) > espacios[con]:
+                espacios[con]=len(str(dicc[i][k]))
+            con+=1
+
+    msj = "\n|"
+
+    for i in range(0,len(etiqueta)):
+        
+        dividir = (espacios[i] - len(str(etiqueta[i]))) / 2
+        msj+= " "*(round(dividir - 0.5)+1)
+        msj+= str(etiqueta[i])
+        msj+= " "*(round(dividir + 0.5)+1)
+        msj+="|"
+
+    msj+="\n|"
+    for i in range(0,5):
+        msj+= " "*(espacios[i]+2)
+        msj+="|"
+    msj+="\n|"
+
+    decorar = 0
+    for i in dicc:
+        decorar += 1
+        con = 0
+
+        for k in dicc[i]:
+            
+            dividir = (espacios[con] - len(str(dicc[i][k]))) / 2
+            msj+= " "*(round(dividir - 0.5)+1)
+            msj+= str(dicc[i][k])
+            msj+= " "*(round(dividir + 0.5)+1)
+            msj+= "|"
+            con += 1
+        if decorar < len(dicc):
+            msj+="\n|"
+
+    return msj
 
 
 ##############################################################################################
@@ -174,18 +246,21 @@ def detalle(dicc,tipe):
 def mostrar_carrito(carr,total):
 
     
-    total = 0
+    total = 0.0
 
     for i in carr:
-        total += carr[i]["Subtotal"]
+        total += float(carr[i]["Subtotal"])
 
     os.system("cls")
     
     if len(carr) == 0:
         print("No tienes ningun producto en tu carrito\n\n")
     else:
-        print(f"""Su total de compra es igual a: {total}\n""")
-        print(carr)
+        msj = (f"""Su total de compra es igual a: {total}\n""")
+        msj += detalle_compra(carr)
+        msj += "\n"
+        print(msj)
+
 
     lista_return = [total,carr]
     return lista_return
@@ -272,9 +347,9 @@ def buscar_producto(inventario,menu,carr):
                                         carr[key]["Cantidad"] += num
                                         carr[key]["Subtotal"] = (carr[key]["Precio x Unidad"] * carr[key]["Cantidad"])
                                     else:
-                                        carr[key] = {  "Codigo" : key , "Nombre" : inventario[key]["Nombre"] , "Precio x Unidad" : inventario[key]["Precio"], "Cantidad" : num , "Subtotal" : (inventario[key]["Precio"] * num)}
+                                        carr[key] = {  "Codigo" : key , "Nombre" : inventario[key]["Nombre"] , "Precio x Unidad" : inventario[key]["Precio"], "Cantidad" : num , "Subtotal" : ((inventario[key]["Precio"]) * num)}
                                     inventario[key]["Stock"] -= num
-                                    
+                            
                                     space = input("Producto agregado al carrito exitosamente. Precione ENTER para continuar")
 
                                     agregar = False
@@ -287,7 +362,6 @@ def buscar_producto(inventario,menu,carr):
 ##############################################################################################
 ##############################################################################################
 ##############################################################################################
-
 
 
 
