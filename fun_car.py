@@ -192,11 +192,12 @@ def detalle(dicc,tipe):
 def detalle_compra(dicc):
 
     
-    etiqueta = ["Codigo","Nombre","Precio x unidad","Cantidad","Subtotal"]
+    etiqueta = ["Codigo","Nombre","Precio x Unidad","Cantidad","Subtotal"]
     espacios = [6,6,15,8,8]
 
 
     for i in dicc:
+        dicc[i]["Precio x Unidad"] = "$" + str(dicc[i]["Precio x Unidad"])
         con = 0
         for k in dicc[i]:
             if len(str(dicc[i][k])) > espacios[con]:
@@ -234,6 +235,9 @@ def detalle_compra(dicc):
             con += 1
         if decorar < len(dicc):
             msj+="\n|"
+
+    for i in dicc:
+        dicc[i]["Precio x Unidad"] = float(dicc[i]["Precio x Unidad"].replace("$",""))
 
     return msj
 
