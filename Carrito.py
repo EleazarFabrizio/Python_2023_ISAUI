@@ -76,6 +76,6 @@ while salir == False:
 
 
     else:
-        print("Opcion no valida. Precione cualquier tecla para continuar")
+        print("Opcion no valida. Precione ENTER para continuar")
         op=input(": ")
         os.system("cls")
