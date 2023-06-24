@@ -36,19 +36,17 @@ def detalle(dicc):
 
     for i in range(0,len(etiqueta)):
 
-        if (i != 2) and (i != 5):
-            dividir = (espacios[i] - len(str(etiqueta[i]))) / 2
-            msj+= " "*(round(dividir - 0.5)+1)
-            msj+= str(etiqueta[i])
-            msj+= " "*(round(dividir + 0.5)+1)
-            msj+="|"
+        dividir = (espacios[i] - len(str(etiqueta[i]))) / 2
+        msj+= " "*(round(dividir - 0.5)+1)
+        msj+= str(etiqueta[i])
+        msj+= " "*(round(dividir + 0.5)+1)
+        msj+="|"
 
     msj+="\n|"
     for i in range(0,6):
 
-        if (i != 2) and (i != 5):
-            msj+= " "*(espacios[i]+2)
-            msj+="|"
+        msj+= " "*(espacios[i]+2)
+        msj+="|"
     msj+="\n|"
 
     decorar = 0
@@ -64,12 +62,11 @@ def detalle(dicc):
 
         for k in dicc[i]:
                 
-            if (con != 2) and (con != 5):
-                dividir = (espacios[con] - len(str(dicc[i][k]))) / 2
-                msj+= " "*(round(dividir - 0.5)+1)
-                msj+= str(dicc[i][k])
-                msj+= " "*(round(dividir + 0.5)+1)
-                msj+= "|"
+            dividir = (espacios[con] - len(str(dicc[i][k]))) / 2
+            msj+= " "*(round(dividir - 0.05)+1)
+            msj+= str(dicc[i][k])
+            msj+= " "*(round(dividir + 0.05)+1)
+            msj+= "|"
             con += 1
         if decorar < 5:
             msj+="\n|"

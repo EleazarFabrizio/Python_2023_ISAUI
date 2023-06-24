@@ -6,12 +6,12 @@ import fun_car
 
 inventario = {
 
-"131" : {"Código" : "131" , "Nombre" : "Coca-Cola 500ml" , "Marca" : "Coca-Cola" , "Precio" : 200.99 , "Stock" : 50 , "Características" : "Exceso de azucares"},
-"162" : {"Código" : "162" , "Nombre" : "Coca-Cola 2L" , "Marca" : "Coca-Cola" , "Precio" : 700.33 , "Stock" : 50 , "Características" : "Exceso de azucares"},
-"245" : {"Código" : "245" , "Nombre" : "Pringles" , "Marca" : "Kellogg's" , "Precio" : 500.45 , "Stock" : 23 , "Características" : "Exceso de azucares y grasas"},
-"371" : {"Código" : "371" , "Nombre" : "Pringles queso y cebolla" , "Marca" : "Kellogg's" , "Precio" : 670.00 , "Stock" : 10 , "Características" : "Exceso de ricura"},
-"490" : {"Código" : "490" , "Nombre" : "Doritos" , "Marca" : "Pepsico" , "Precio" : 570.50 , "Stock" : 48 , "Características" : "Exceso en grasas"},
-"780" : {"Código" : "780" , "Nombre" : "Lays" , "Marca" : "Pepsico" , "Precio" : 340.50 , "Stock" : 47 , "Características" : "Exceso en grasas"},
+"131" : {"Código" : "131" , "Nombre" : "Coca-Cola 500ml" , "Marca" : "Coca-Cola" , "Precio" : 200 , "Stock" : 50 , "Características" : "Exceso en azucares"},
+"162" : {"Código" : "162" , "Nombre" : "Coca-Cola 2L" , "Marca" : "Coca-Cola" , "Precio" : 700 , "Stock" : 50 , "Características" : "Exceso en azucares"},
+"245" : {"Código" : "245" , "Nombre" : "Pringles" , "Marca" : "Kellogg's" , "Precio" : 500 , "Stock" : 23 , "Características" : "Exceso en azucares y grasas"},
+"371" : {"Código" : "371" , "Nombre" : "Pringles queso y cebolla" , "Marca" : "Kellogg's" , "Precio" : 670 , "Stock" : 10 , "Características" : "Exceso de sales"},
+"490" : {"Código" : "490" , "Nombre" : "Doritos" , "Marca" : "Pepsico" , "Precio" : 570 , "Stock" : 48 , "Características" : "Exceso en grasas"},
+"780" : {"Código" : "780" , "Nombre" : "Lays" , "Marca" : "Pepsico" , "Precio" : 340 , "Stock" : 47 , "Características" : "Exceso en grasas"},
 
 }
 
@@ -23,9 +23,12 @@ salir  = False
 
 modo_de_busqueda = 1
 
-total = 0
-
 while salir == False:
+
+    total = 0
+
+    for i in carrito:
+        total += carrito[i]["Subtotal"]
 
     os.system("cls")
 
