@@ -6,12 +6,12 @@ import fun_car
 
 inventario = {
 
-"131" : {"Codigo" : "131" , "Nombre" : "Coca-Cola 500ml" , "Marca" : "Coca-Cola" , "Precio" : 200.99 , "Stock" : 50 , "Caracteristicas" : "Exceso de azucares"},
-"162" : {"Codigo" : "162" , "Nombre" : "Coca-Cola 2L" , "Marca" : "Coca-Cola" , "Precio" : 700.33 , "Stock" : 50 , "Caracteristicas" : "Exceso de azucares"},
-"245" : {"Codigo" : "245" , "Nombre" : "Pringles" , "Marca" : "Kellogg's" , "Precio" : 500.45 , "Stock" : 23 , "Caracteristicas" : "Exceso de azucares y grasas"},
-"371" : {"Codigo" : "371" , "Nombre" : "Pringles queso y cebolla" , "Marca" : "Kellogg's" , "Precio" : 670.00 , "Stock" : 10 , "Caracteristicas" : "Exceso de ricura"},
-"490" : {"Codigo" : "490" , "Nombre" : "Doritos" , "Marca" : "Pepsico" , "Precio" : 570.50 , "Stock" : 48 , "Caracteristicas" : "Exceso en grasas"},
-"780" : {"Codigo" : "780" , "Nombre" : "Lays" , "Marca" : "Pepsico" , "Precio" : 340.50 , "Stock" : 47 , "Caracteristicas" : "Exceso en grasas"},
+"131" : {"Código" : "131" , "Nombre" : "Coca-Cola 500ml" , "Marca" : "Coca-Cola" , "Precio" : 200.99 , "Stock" : 50 , "Características" : "Exceso de azucares"},
+"162" : {"Código" : "162" , "Nombre" : "Coca-Cola 2L" , "Marca" : "Coca-Cola" , "Precio" : 700.33 , "Stock" : 50 , "Características" : "Exceso de azucares"},
+"245" : {"Código" : "245" , "Nombre" : "Pringles" , "Marca" : "Kellogg's" , "Precio" : 500.45 , "Stock" : 23 , "Características" : "Exceso de azucares y grasas"},
+"371" : {"Código" : "371" , "Nombre" : "Pringles queso y cebolla" , "Marca" : "Kellogg's" , "Precio" : 670.00 , "Stock" : 10 , "Características" : "Exceso de ricura"},
+"490" : {"Código" : "490" , "Nombre" : "Doritos" , "Marca" : "Pepsico" , "Precio" : 570.50 , "Stock" : 48 , "Características" : "Exceso en grasas"},
+"780" : {"Código" : "780" , "Nombre" : "Lays" , "Marca" : "Pepsico" , "Precio" : 340.50 , "Stock" : 47 , "Características" : "Exceso en grasas"},
 
 }
 
@@ -32,13 +32,13 @@ while salir == False:
     carrito_print = ""
 
     print(f"""
-    Bienvnido al carrito mas fachero del mundo mundial.
+    Bienvenido a la app de compra.
           
-    Usted tiene el siguiente monto en compra: {total}
+    Usted tiene el siguiente monto en compra en su carrito: ${total}
 
     1) Ver productos
     2) Ver carrito
-    3) Ver compras historicas
+    3) Ver compras históricas
     4) Salir:
     """)
 
@@ -67,15 +67,15 @@ while salir == False:
     elif op == "3":
         os.system("cls")
         if len(compras_historicas) == 0:
-            space = input("Usted no ha realizado ninguna compra hasta la fecha.\nPrecione ENTER para continuar\n:   ")
+            space = input("Usted no ha realizado ninguna compra hasta la fecha.\nPresione ENTER para continuar\n:   ")
         else:
             msj = ""
             for i in compras_historicas:
                 print(compras_historicas[i])
-            space = input("\nPrecione ENTER para continuar\n:   ")
+            space = input("\nPresione ENTER para continuar\n:   ")
 
 
     else:
-        print("Opcion no valida. Precione ENTER para continuar")
+        print("Opción no valida. Presione ENTER para continuar")
         op=input(": ")
         os.system("cls")

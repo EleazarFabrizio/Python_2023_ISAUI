@@ -1,6 +1,3 @@
-num = 6
+num = "0"
 
-def restar(num):
-    num -= 1
-
-print(restar(num))
+print(num.isnumeric())
