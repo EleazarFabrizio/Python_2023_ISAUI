@@ -24,10 +24,10 @@ def op1(inventario,modo_de_busqueda,menu,carr):
         elif op == "2":
             os.system("cls")
             return_buscar = buscar_producto(inventario,menu,carr)
+            ##menu = return_buscar[2]
             inventario = return_buscar[0]
             carr = return_buscar[1]
 
-            #lista [1] = inventario
             
         else:
             print("Opcion no valida. Precione cualquier tecla para continuar")
@@ -47,11 +47,12 @@ def op2(inventario,modo_de_busqueda,carr,menu,total):
     
     while menu == True:
         os.system("cls")
+        
         return_carrito = mostrar_carrito(carr,total)
-        lista_return[2] = return_carrito[1]
-        lista_return[4] = return_carrito[0]
+        carr = return_carrito[1]
+        total = return_carrito[0]
 
-        op = input("1) Ver productos\n2) Buscar producto\n3) Finalizar compra\n4) Regresar\n:   ")
+        op = input("1) Ver productos\n2) Editar Productos\n3) Finalizar compra\n4) Regresar\n:   ")
         os.system("cls")
         if op == "4":
             menu = False
@@ -60,6 +61,36 @@ def op2(inventario,modo_de_busqueda,carr,menu,total):
             modo_de_busqueda = return_op1[0]
             inventario = return_op1[1]
             carr = return_op1[2]
+
+        elif op == "2":
+            os.system("cls")
+            mostrar_carrito(carr,total)
+            buscando = True
+            while buscando == True:
+                cod = input("Ingrese el codigo del producto al que desea editar\n:  ")
+                if cod in carr == False:
+                    space = input("No hay ningun producto en su carrito de compra con ese codigo. Precione ENTER")
+                else:
+                    buscando = False
+
+                    ingresando = True
+                    while ingresando == True:
+                        num = input("Ingrese la cantidad de items que desea eliminar de este producto en su carrito.\n:     ")
+                        if num.isnumeric() == False:
+                            print("\nDebe ingresar un numero entero.\n")
+                        else:
+                            num = int(num)
+                            if num >= carr[cod]["Cantidad"]:
+                                print("Usted estaria eliminanddo el producto por completo de su carrito.")
+                            op = si_o_no("\nSeguro desea realizar estos cambios?\n1) SI         2)NO")
+                            if op == 2:
+                                ingresando = False
+                                space = input("No se han realizado cambios. Precione ENTER para continuar\n:  ")
+
+
+
+            menu = False
+
         else:
             print("Opcion no valida. Precione cualquier tecla para continuar")
             op=input(": ")
@@ -129,7 +160,7 @@ def detalle(dicc,tipe):
                 msj+= " "*(round(dividir + 0.5)+1)
                 msj+= "|"
             con += 1
-        if decorar < 5:
+        if decorar < len(dicc):
             msj+="\n|"
 
     print(msj)
@@ -141,15 +172,23 @@ def detalle(dicc,tipe):
 
 
 def mostrar_carrito(carr,total):
+
+    
+    total = 0
+
+    for i in carr:
+        total += carr[i]["Subtotal"]
+
+    os.system("cls")
     
     if len(carr) == 0:
         print("No tienes ningun producto en tu carrito\n\n")
     else:
-        print(total)
+        print(f"""Su total de compra es igual a: {total}\n""")
         print(carr)
 
     lista_return = [total,carr]
-    return
+    return lista_return
 
 
 ##############################################################################################
@@ -198,7 +237,7 @@ def buscar_producto(inventario,menu,carr):
         else:
             encontrado = False
             for i in inventario:
-                if (cod in inventario) or (cod.lower() == str(inventario[i]["Nombre"]).lower()):
+                if (cod == i) or (cod.lower() == str(inventario[i]["Nombre"]).lower()):
                     encontrado = True
                     key = i
 
@@ -229,8 +268,15 @@ def buscar_producto(inventario,menu,carr):
                                 elif (num > inventario[key]["Stock"]):
                                     print("La cantidad que desea agregar supera el stock siponible")
                                 else:
-                                    subtotal = inventario[key]["Precio"] * num
-                                    carr[key]={"Codigo" : key ,"Nombre" : inventario[key]["Nombre"], "Precio x Unidad" : inventario[key]["Precio"] , "Cantidad" : num , "Subtotal" : subtotal}
+                                    if key in carr:
+                                        carr[key]["Cantidad"] += num
+                                        carr[key]["Subtotal"] = (carr[key]["Precio x Unidad"] * carr[key]["Cantidad"])
+                                    else:
+                                        carr[key] = {  "Codigo" : key , "Nombre" : inventario[key]["Nombre"] , "Precio x Unidad" : inventario[key]["Precio"], "Cantidad" : num , "Subtotal" : (inventario[key]["Precio"] * num)}
+                                    inventario[key]["Stock"] -= num
+                                    
+                                    space = input("Producto agregado al carrito exitosamente. Precione ENTER para continuar")
+
                                     agregar = False
                     menu = False
 

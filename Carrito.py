@@ -11,7 +11,7 @@ inventario = {
 "245" : {"Nombre" : "Pringles" , "Marca" : "Kellogg's" , "Precio" : 500 , "Stock" : 23 , "Caracteristicas" : "Exceso de azucares y grasas"},
 "371" : {"Nombre" : "Pringles queso y cebolla" , "Marca" : "Kellogg's" , "Precio" : 670 , "Stock" : 10 , "Caracteristicas" : "Exceso de ricura"},
 "490" : {"Nombre" : "Doritos" , "Marca" : "Pepsico" , "Precio" : 570 , "Stock" : 48 , "Caracteristicas" : "Exceso en grasas"},
-"490" : {"Nombre" : "Lays" , "Marca" : "Pepsico" , "Precio" : 340 , "Stock" : 47 , "Caracteristicas" : "Exceso en grasas"},
+"780" : {"Nombre" : "Lays" , "Marca" : "Pepsico" , "Precio" : 340 , "Stock" : 47 , "Caracteristicas" : "Exceso en grasas"},
 
 }
 
@@ -22,11 +22,9 @@ salir  = False
 
 modo_de_busqueda = 1
 
-while salir == False:
-    total = 0
+total = 0
 
-    for i in carrito:
-        total += carrito[i]["Subtotal"]
+while salir == False:
 
     os.system("cls")
 
@@ -34,6 +32,8 @@ while salir == False:
 
     print(f"""
     Bienvnido al carrito mas fachero del mundo mundial.
+          
+    Usted tiene el siguiente monto en compra: {total}
 
     {carrito_print}
 
@@ -61,7 +61,7 @@ while salir == False:
         modo_de_busqueda = lista_return[0]
         inventario = lista_return[1]
         carrito = lista_return[2]
-        total=[4]
+        total=lista_return[4]
 
 
 
