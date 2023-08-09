@@ -29,19 +29,23 @@ while True:
         if len(escrito) == 0:
             print("Bienvenido a la calculadora de Eleazar\nIngrese un numero para comenzar.")
         else:
-            print(f"\nIngrese un numero por el cual {operador[estado]} al anterior")
+            print(f"\nIngrese un numero por el cual {operador[estado]} al anterior.")
 
         num = input(":  ")
         num = (verificar(num))
 
+        cls()
+
         if num == "error":
-            cls()
             print("Por favor ingrese un numero valido. Enteros, decimales o fracciones.")
             wait()
         
         elif (num == 0) and (estado == 3):
-            cls()
             print("error. No se puede dividir por 0. Ingrese otro numero.")
+            wait()
+
+        elif (num < 0) and (estado == 5):
+            print("Error. No se puede radicar por un numero negativo. Ingrese otro numero")
             wait()
         
         else:
@@ -67,10 +71,10 @@ while True:
                 escrito += " " + str(num)
 
             elif estado == 4:
-                escrito = "[(" + escrito + " )^" + str(num) + "]"
+                escrito = "(" + escrito + " )^" + str(num)
 
             elif estado == 5:
-                escrito = "(" + str(num) + ")√(" + escrito + " )" 
+                escrito = "(" + str(num) + "√"+ escrito + " )" 
             flag = False
 
     ########
@@ -102,6 +106,11 @@ while True:
         if op not in ["1","2","3","4","5","6","0"]:
             print("La opción ingresada no es valida.")
             wait()
+
+        elif (op == "6") and (resultado < 0):
+            print("Error. No se puede radicar un numero negativo. Intente otra opción o borre todo para calcular desde el principio")
+            wait()
+
         else:
             if op == "0":
                 escrito = ""
