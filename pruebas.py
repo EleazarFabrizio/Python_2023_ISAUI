@@ -1,2 +1,6 @@
+while True:
+    num = []
 
-list = ["pollo" , "perro" , ""]
+    num.append(input(":  "))
+
+    
