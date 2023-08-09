@@ -44,8 +44,8 @@ while True:
             print("error. No se puede dividir por 0. Ingrese otro numero.")
             wait()
 
-        elif (num < 0) and (estado == 5):
-            print("Error. No se puede radicar por un numero negativo. Ingrese otro numero")
+        elif (num % 2 == 0) and (estado == 5) and (resultado < 0):
+            print("Error. Radicar un numero negativo por un numero positivo da un resultado imaginario. Ingrese otro numero")
             wait()
         
         else:
@@ -105,10 +105,6 @@ while True:
 
         if op not in ["1","2","3","4","5","6","0"]:
             print("La opción ingresada no es valida.")
-            wait()
-
-        elif (op == "6") and (resultado < 0):
-            print("Error. No se puede radicar un numero negativo. Intente otra opción o borre todo para calcular desde el principio")
             wait()
 
         else:
