@@ -8,7 +8,8 @@ def verificar(txt):
             txt = txt.split()
             txt = float(txt[0]) / float(txt[1])
 
-        elif "." in txt:
+        elif ("." in txt) or ("," in txt):
+            txt = txt.replace("," , ".")
             txt2 = txt
             txt = float(txt)
             txt2 = txt2.replace("." , " ")
@@ -42,3 +43,37 @@ def potenciar(a,b):
 
 def radicar(a,b):
     return a ** (1 / b)
+
+def arreglar(num):
+    x = num
+    if "." in str(x):
+        separado = str(x)
+        separado = separado.replace("." , " ")
+        separado = separado.split()
+        if int(separado[1]) == 0:
+            x = int(separado[0])
+        
+        else:
+            periodo = ""
+            anterior = []
+            for i in separado[1]:
+                if i in anterior:
+                    return( float(separado[0] + "." + periodo))
+                else:
+                    periodo += i
+                    anterior.append(i)
+            x = float(separado[0] + "." + periodo)
+
+    return x
+
+
+
+def not_in(buscar,lista):
+    for i in lista:
+        for k in buscar:
+            if k == i:
+                return True
+    return False
+
+
+###print(arreglar(3.34353345653333333))

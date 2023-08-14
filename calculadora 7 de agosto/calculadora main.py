@@ -3,6 +3,7 @@ import os
 
 op = 0
 resultado = 0
+anterior = 0
 escrito = ""
 estado = 0
 operador = ["sumar","restar","multiplicar","dividir","potenciar","radicar"]
@@ -35,7 +36,7 @@ while True:
         num = (verificar(num))
 
         cls()
-
+        
         if num == "error":
             print("Por favor ingrese un numero valido. Enteros, decimales o fracciones.")
             wait()
@@ -52,6 +53,7 @@ while True:
             if len(escrito) == 0:
                 resultado = num
             else:
+                anterior = resultado
                 match estado:
                     case 0:
                         resultado = sumar(resultado,num)
@@ -65,20 +67,18 @@ while True:
                         resultado = potenciar(resultado,num)
                     case 5:
                         resultado = radicar(resultado,num)
-            if (estado != 5) and (estado != 4):
+            if (estado < 5):
                 if num < 0:
                     num = "(" + str(num) + ")"
                 escrito += " " + str(num)
 
-            elif estado == 4:
-                escrito = "(" + escrito + " )^" + str(num)
-
             elif estado == 5:
-                escrito = "(" + str(num) + "√"+ escrito + " )" 
+                escrito = "( " + str(num) + " √ "+ str(anterior) + " )" 
             flag = False
 
     ########
 
+    resultado = arreglar(resultado)
     flag = True
     while flag == True:
         cls()
@@ -108,13 +108,24 @@ while True:
             wait()
 
         else:
+
+            
             if op == "0":
                 escrito = ""
                 resultado = 0
                 estado = 0
             else:
                 estado = int(op) - 1
-                if estado < 4:
-                    escrito += " " + simbolo[estado]
+
+                if not_in(("^","√"),escrito) == True:
+                    escrito = str(resultado)
+                
+                if (estado < 4):
+                    escrito = str(resultado) + " " + simbolo[estado]
+
+                elif estado == 4:
+                    escrito = "( " + str(resultado) + " ) ^"
+                else:
+                    escrito = str(resultado)
 
             flag = False
