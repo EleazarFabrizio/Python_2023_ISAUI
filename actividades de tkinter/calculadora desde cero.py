@@ -6,7 +6,7 @@ root.resizable(0, 0)
 root.configure(bg="#555369")
 #root.geometry("500x800")
 
-display = Label(root,text="0",font=("Arial Black", 20), width=5, height=4,anchor="e", justify="right")
+display = Label(root,text="0", bg = "#272829", fg= "white",font=("Arial Black", 20), width=5, height=4,anchor="e", justify="right")
 
 #DISPLAY DE NUMEROS MUY NUMEROSOS CON CARA DE OSO
 
@@ -48,7 +48,7 @@ conX = 0
 conY = 0
 for i in range (len(list)):
     
-    botones.append(Button(root , text=list[i],font=("Arial Black", 20), width=5, height=3, command= lambda c = i: escribir(list[c])  ).grid(row=conX + 1,column=conY,padx=1,pady=1,sticky=W+E))
+    botones.append(Button(root, bg = '#61677A' , text=list[i],font=("Arial Black", 20), width=5, height=3, command= lambda c = i: escribir(list[c])  ).grid(row=conX + 1,column=conY,padx=1,pady=1,sticky=W+E))
     conY += 1
     if conY > 4:
         conY = 0
