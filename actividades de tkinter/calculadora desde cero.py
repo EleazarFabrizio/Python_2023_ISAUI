@@ -54,7 +54,4 @@ for i in range (len(list)):
         conY = 0
         conX += 1
 
-for i in botones:
-    print(i)
-
 root.mainloop()
