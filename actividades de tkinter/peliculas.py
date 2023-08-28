@@ -22,7 +22,7 @@ entry = ttk.Entry(root,font=('Oswald',15),justify=CENTER)
 entry.grid(row=1,column=0,padx=(30,30))
 
 aniadir = ttk.Button(root,text="Añadir",style='my.TButton',command= lambda: ania()).grid(row=2,column=0,pady=(10,30))
-peloquilas = Listbox(font=('Oswald'),justify=CENTER,width=50)
+peloquilas = Listbox(font=('Oswald',15),justify=CENTER,width=50)
 peloquilas.grid(row=1,rowspan=3,column=1,padx=(0,30),pady=(0,30))
 
 root.mainloop()
