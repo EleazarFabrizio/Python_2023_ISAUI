@@ -29,15 +29,16 @@ def arreglar(num):
         else:
             periodo = ""
             anterior = []
-            for i in range(0,2):
-                if separado[1][i] in anterior:
+            for i in separado[1]:
+                if i in anterior:
                     return( float(separado[0] + "." + periodo))
                 else:
-                    periodo += separado[1][i]
-                    anterior.append(separado[1][i])
+                    periodo += i
+                    anterior.append(i)
             x = float(separado[0] + "." + periodo)
 
     return x
+
 
 def nuevo():
     op.set(random.randint(0,3))
@@ -49,15 +50,46 @@ def nuevo():
     signo.config(text=lista_operaciones[op.get()])
     
 def resolver():
-    calculo = eval(str(num1.get()) +  lista_operaciones[op.get()] + str(num2.get()))
+    calculo = arreglar(eval(str(num1.get()) +  lista_operaciones[op.get()] + str(num2.get())))
     #truncar = calculo // 0.1 / 100
     try:
-        if float(num3.get()) == arreglar(calculo):
+        if "." in str(calculo):
+            respuesta_correcta = (    (       str(calculo)     ).replace("."," ")      ).split()
+            print("ES FLOTANTE")
+            print(type(respuesta_correcta))
+
+            if "." in num3.get():
+                mi_respuesta = (    (       num3.get()     ).replace("."," ")      ).split()
+                print(len(mi_respuesta))
+                print(mi_respuesta[0] == respuesta_correcta[0])
+                if (mi_respuesta[0] == respuesta_correcta[0]) and (len(mi_respuesta) == 2):
+                    #print("SIIIIIIIII")
+                    #print(respuesta_correcta)
+                    #print(mi_respuesta)
+                    condicion2 = True
+                    if len(mi_respuesta[1]) < len(respuesta_correcta[1]):
+                        menor = len(mi_respuesta[1])
+                    else:
+                        menor = len(respuesta_correcta[1])
+                    for i in range(0,menor):
+                        if mi_respuesta[1][i] != respuesta_correcta[1][i]:
+                            condicion2 = False
+                    #print(condicion2)
+
+                    if condicion2 == True:
+                        puntos[1] += 1
+
+                else:
+                    puntos[2] += 1
+            else:
+                puntos[2] += 1
+
+        elif float(num3.get()) == calculo:
             puntos[1] += 1
         else:
             puntos[2] += 1
-            print (num3.get())
-            print(calculo)
+            #print (num3.get())
+            #print(calculo)
         puntos[0] += 1
         puntuacion.config(text=f"Juegos: {puntos[0]}\nBuenos: {puntos[1]}\nMalos: {puntos[2]}")
 

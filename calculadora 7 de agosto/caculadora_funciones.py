@@ -76,4 +76,4 @@ def not_in(buscar,lista):
     return False
 
 
-###print(arreglar(3.34353345653333333))
+print(arreglar(2.260869565217391))
