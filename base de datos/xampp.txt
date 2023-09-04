@@ -1,0 +1,81 @@
+
+Estas son las instrucciones de como cree la base de datos:
+
+create database Almacen;
+use almacen;
+
+### Creando las tablas
+
+create table categoria(
+codcategoria int auto_increment,
+nombre varchar(150),
+primary key(codcategoria));
+
+create table marca(
+codmarca int auto_increment,
+nombre varchar(150),
+primary key(codmarca));
+
+
+
+### Insertar marcas y categorias
+
+
+
+insert into categoria(nombre) values('bebida');
+insert into categoria(nombre) values('lacteos');
+insert into categoria(nombre) values('fiambre');
+
++--------------+---------+
+| codcategoria | nombre  |
++--------------+---------+
+|            3 | bebida  |
+|            4 | lacteos |
+|            5 | fiambre |
++--------------+---------+
+
+insert into marca(nombre) values('Coca-Cola');
+insert into marca(nombre) values('Manaos');
+insert into marca(nombre) values('Sancor');
+insert into marca(nombre) values('La serenisima');
+insert into marca(nombre) values('Paladini');
+
++----------+---------------+
+| codmarca | nombre        |
++----------+---------------+
+|        1 | Coca-Cola     |
+|        2 | Manaos        |
+|        3 | Sancor        |
+|        4 | La serenisima |
+|        5 | Paladini      |
++----------+---------------+
+
+
+
+create table producto(
+codproducto int auto_increment,
+nombre varchar(150),
+precio double(255,2),
+primary key(codproducto),
+codmarca int,
+codcategoria int,
+foreign key (codmarca) references marca(codmarca),
+foreign key (codcategoria) references categoria(codcategoria)
+);
+
+
+insert into producto(nombre,precio,codmarca,codcategoria) values('Manaos de naranja',400,2,3);
+insert into producto(nombre,precio,codmarca,codcategoria) values('coca de pinia',777,1,3);
+insert into producto(nombre,precio,codmarca,codcategoria) values('yogurt',600,3,4);
+insert into producto(nombre,precio,codmarca,codcategoria) values('leche',370,4,4);
+insert into producto(nombre,precio,codmarca,codcategoria) values('mortadela 500gm',1200.99,5,5);
+
++-------------+-------------------+---------+----------+--------------+
+| codproducto | nombre            | precio  | codmarca | codcategoria |
++-------------+-------------------+---------+----------+--------------+
+|           1 | Manaos de naranja |  400.00 |        2 |            3 |
+|           2 | coca de pinia     |  777.00 |        1 |            3 |
+|           3 | yogurt            |  600.00 |        3 |            4 |
+|           4 | leche             |  370.00 |        4 |            4 |
+|           5 | mortadela 500gm   | 1200.99 |        5 |            5 |
++-------------+-------------------+---------+----------+--------------+
