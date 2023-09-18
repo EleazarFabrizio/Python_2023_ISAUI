@@ -1,0 +1,52 @@
+
+
+
+
+ create database escuela;
+
+
+ use escuela;
+
+
+
+create table carreras(
+id_carrera int primary key auto_increment,
+nombre varchar(255),
+duracion int
+);
+
+
+
+ create table estado_alumno(
+id_estado_alumno int primary key auto_increment,
+nombre varchar(255)
+);
+
+
+
+create table alumnos (
+id_alumno int primary key auto_increment,
+nombre varchar(255),apellido varchar(255),
+dni varchar(20),
+id_carrera int,
+id_estado_alumno int,
+foreign key(id_carrera) references carreras(id_carrera),
+foreign key (id_estado_alumno) references estado_alumno(id_estado_alumno)
+);
+
+
+
+insert into carreras(nombre,duracion) values ('diseño de espacios' , 3);
+insert into carreras(nombre,duracion) values ('desarrollo de software' , 3);
+insert into carreras(nombre,duracion) values ('curso de cocina de 44 años' , 44);
+insert into carreras(nombre,duracion) values ('trekking' , 3);
+
+insert into estado_alumno(nombre) values ('regular');
+insert into estado_alumno(nombre) values ('libre');
+insert into estado_alumno(nombre) values ('promocionado');
+
+insert into alumnos(nombre , apellido , dni , id_carrera , id_estado_alumno) values ('Eleazar' , 'Fabrizio' , '44607877' , 2 , 1);
+insert into alumnos(nombre , apellido , dni , id_carrera , id_estado_alumno) values ('Lucas' , 'Dimaria' , '66608666' , 2 , 1);
+insert into alumnos(nombre , apellido , dni , id_carrera , id_estado_alumno) values ('Agos' , 'Robledo' , '99090909' , 1 , 1);
+insert into alumnos(nombre , apellido , dni , id_carrera , id_estado_alumno) values ('Ivan' , 'Marek' , '00000000' , 4 , 3);
+insert into alumnos(nombre , apellido , dni , id_carrera , id_estado_alumno) values ('Carlos Saul' , 'Menem' , 'estratosfera' , 3 , 2);
