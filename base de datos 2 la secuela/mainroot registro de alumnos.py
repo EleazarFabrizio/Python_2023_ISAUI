@@ -66,7 +66,6 @@ def on_treeview_select(event):
         modificar_button.config(state=tk.NORMAL)
         eliminar_button.config(state=tk.NORMAL)
         dicc = (    tree.item(tree.selection()) )['values']
-        print(dicc)
         cambiar_id = dicc[0]
 
         nombre_entry.delete(0,"end") ; nombre_entry.insert(0,dicc[1])
@@ -156,7 +155,6 @@ def guardar_alumno(parametro):
                 cursor.execute("INSERT INTO alumnos (nombre, apellido, dni, id_carrera, id_estado_alumno, activo) VALUES (%s, %s, %s, %s, %s, %s)", (nombre, apellido, dni, carrera_id, estado_id, 1))
             else:
                 dicc = (    tree.item(tree.selection()) )['values']
-                print(dicc)
                 cambiar_id = dicc[0]
                 cursor.execute("update alumnos set nombre = %s, apellido = %s, dni = %s, id_carrera = %s, id_estado_alumno = %s where id_alumno = %s", (nombre, apellido, dni, carrera_id, estado_id,cambiar_id))
             conexion.commit()
