@@ -17,7 +17,7 @@ duracion int
 
 
 
- create table estado_alumno(
+create table estado_alumno(
 id_estado_alumno int primary key auto_increment,
 nombre varchar(255)
 );
@@ -26,7 +26,8 @@ nombre varchar(255)
 
 create table alumnos (
 id_alumno int primary key auto_increment,
-nombre varchar(255),apellido varchar(255),
+nombre varchar(255),
+apellido varchar(255),
 dni varchar(20),
 id_carrera int,
 id_estado_alumno int,
