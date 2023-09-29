@@ -65,6 +65,9 @@ def on_treeview_select(event):
     if selected_item:
         modificar_button.config(state=tk.NORMAL)
         eliminar_button.config(state=tk.NORMAL)
+        estado_combobox.config(state="readonly")
+        guardar_button.config(state=tk.DISABLED)
+          
         dicc = (    tree.item(tree.selection()) )['values']
         cambiar_id = dicc[0]
 
@@ -81,6 +84,8 @@ def on_treeview_select(event):
     else:
         modificar_button.config(state=tk.DISABLED)
         eliminar_button.config(state=tk.DISABLED)
+        estado_combobox.config(state=tk.DISABLED)
+        guardar_button.config(state=tk.NORMAL)
     
 
 
@@ -125,54 +130,80 @@ def mostrar_alerta(mensaje):
 
 # Función para guardar un nuevo registro de alumno
 def guardar_alumno(parametro):
+
     nombre = nombre_entry.get()
     apellido = apellido_entry.get()
     dni = dni_entry.get()
     carrera_nombre = carrera_combobox.get()
     estado_nombre = estado_combobox.get()
-    
 
-    if nombre and apellido and dni and carrera_nombre and estado_nombre:
+
+    if nombre and apellido and dni and carrera_nombre:
+            
+            
         if (len(str(dni)) == 8) and (str(dni)).isnumeric():
-            # Obtener el ID de la carrera seleccionada
-            carreras = cargar_carreras()
-            carrera_id = None
-            for carrera in carreras:
-                if carrera[1] == carrera_nombre:
-                    carrera_id = carrera[0]
-                    break
+            
+            
+            dni_repetido = False
+            for i in tree.get_children():
+                if dni == tree.item(i, "values")[3]:
+                    dni_repetido = True
 
-            estados = cargar_estados()
-            estado_id = None
-            for estado in estados:
-                if estado[1] == estado_nombre:
-                    estado_id = estado[0]
-                    break
+            if (dni_repetido == False) or (     (parametro == 1) and (  dni == tree.item(tree.selection(),"values")[3]    )     ):
+                
+                # Obtener el ID de la carrera seleccionada
+                carreras = cargar_carreras()
+                carrera_id = None
+                for carrera in carreras:
+                    if carrera[1] == carrera_nombre:
+                        carrera_id = carrera[0]
+                        break
 
-            cursor = conexion.cursor()
-            # Insertar un nuevo registro en la tabla Alumnos con el ID de carrera y el valor predeterminado para IDESTADOALUMNO
-            if parametro == 0:
-                cursor.execute("INSERT INTO alumnos (nombre, apellido, dni, id_carrera, id_estado_alumno, activo) VALUES (%s, %s, %s, %s, %s, %s)", (nombre, apellido, dni, carrera_id, estado_id, 1))
+                estados = cargar_estados()
+                estado_id = None
+                for estado in estados:
+                    if estado[1] == estado_nombre:
+                        estado_id = estado[0]
+                        break
+
+                cursor = conexion.cursor()
+                # Insertar un nuevo registro en la tabla Alumnos con el ID de carrera y el valor predeterminado para IDESTADOALUMNO
+                if parametro == 0:
+
+                    cursor.execute("INSERT INTO alumnos (nombre, apellido, dni, id_carrera, id_estado_alumno, activo) VALUES (%s, %s, %s, %s, %s, %s)", (nombre, apellido, dni, carrera_id, estado_id, 1))
+                    
+                else:
+                        dicc = (    tree.item(tree.selection()) )['values']
+                        cambiar_id = dicc[0]
+                        cursor.execute("update alumnos set nombre = %s, apellido = %s, dni = %s, id_carrera = %s, id_estado_alumno = %s where id_alumno = %s", (nombre, apellido, dni, carrera_id, estado_id,cambiar_id))
+                    
+                conexion.commit()
+                cargar_datos()
+                nombre_entry.delete(0, tk.END)
+                apellido_entry.delete(0, tk.END)
+                dni_entry.delete(0, tk.END)
+                carrera_combobox.set("")  # Limpiar la selección del ComboBox
+                estado_combobox.current(0)
+                estado_combobox.config(state=tk.DISABLED)
+
             else:
-                dicc = (    tree.item(tree.selection()) )['values']
-                cambiar_id = dicc[0]
-                cursor.execute("update alumnos set nombre = %s, apellido = %s, dni = %s, id_carrera = %s, id_estado_alumno = %s where id_alumno = %s", (nombre, apellido, dni, carrera_id, estado_id,cambiar_id))
-            conexion.commit()
-            cargar_datos()  # Actualizar la vista
-            # Limpiar los campos después de insertar
-            nombre_entry.delete(0, tk.END)
-            apellido_entry.delete(0, tk.END)
-            dni_entry.delete(0, tk.END)
-            carrera_combobox.set("")  # Limpiar la selección del ComboBox
-            estado_combobox.set("")
+                mostrar_alerta("DNI ya existente en el registro de alumnos")  
         else:
-            mostrar_alerta("DNI no valido")
+            mostrar_alerta("DNI no valido. Debe contener 8 numeros, sin letras.")
     else:
         mostrar_alerta("Los campos son obligatorios. Debe completarlos.")
 
 
 
+def cancelar():
 
+    cargar_datos()
+    nombre_entry.delete(0, tk.END)
+    apellido_entry.delete(0, tk.END)
+    dni_entry.delete(0, tk.END)
+    carrera_combobox.set("")
+    estado_combobox.current(0)
+    estado_combobox.config(state=tk.DISABLED)
 
 
 
@@ -221,8 +252,9 @@ carrera_combobox.grid(row=4, column=1, padx=5, pady=5, ipadx=5, ipady=5, sticky=
 # Combo box para el estado
 estado_label = tk.Label(formulario_frame, text="Estado:")
 estado_label.grid(row=5, column=0)
-estado_combobox = ttk.Combobox(formulario_frame,  state="readonly")
+estado_combobox = ttk.Combobox(formulario_frame,state="disabled")
 estado_combobox.grid(row=5, column=1, padx=5, pady=5, ipadx=5, ipady=5, sticky="ew")
+
 
 
 
@@ -231,10 +263,14 @@ estado_combobox.grid(row=5, column=1, padx=5, pady=5, ipadx=5, ipady=5, sticky="
 # Cargar las carreras al inicio de la aplicación y obtener la lista de carreras con sus IDs
 carreras = cargar_carreras()
 estados = cargar_estados()
+estado_combobox.current(0)
 
 
 guardar_button = tk.Button(formulario_frame, text="Guardar", command= lambda : guardar_alumno(0))
 guardar_button.grid(row=6, columnspan=2, pady=10, sticky="ew")
+
+cancelar_button = tk.Button(formulario_frame, text="Cancelar", command= cancelar)
+cancelar_button.grid(row=7, columnspan=2, pady=10, sticky="ew")
 
 
 tree = ttk.Treeview(root, columns=("Codigo","Nombre", "Apellido","DNI", "Carrera","Estado Alumno"))
@@ -257,17 +293,17 @@ tree.column("#5", anchor=tk.CENTER)
 tree.column("#6", anchor=tk.CENTER) 
 
 
-tree.grid(row=7,padx=10, pady=10)
+tree.grid(row=8,padx=10, pady=10)
 
 
 cargar_button = tk.Button(root, text="Cargar Datos", command=cargar_datos)
-cargar_button.grid(row= 8, column= 0, padx=(0,200))
+cargar_button.grid(row= 9, column= 0, padx=(0,200))
 
 modificar_button = tk.Button(root, text="Modificar Datos",state="disabled", command= lambda : guardar_alumno(1))
-modificar_button.grid(row= 8, column= 0, padx=(0,0))
+modificar_button.grid(row= 9, column= 0, padx=(0,0))
 
 eliminar_button = tk.Button(root, text="Eliminar Alumno",state="disabled", command= eliminar_alumno)
-eliminar_button.grid(row= 8, column= 0, padx=(220,0))
+eliminar_button.grid(row= 9, column= 0, padx=(220,0))
 
 
 root.mainloop()
