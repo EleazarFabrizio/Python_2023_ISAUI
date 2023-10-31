@@ -59,12 +59,9 @@ def encuesta(root,frame_anterior):
     # CONTROL DE FORGET. 0 SIGNIFICA QUE VIENE DEL MENU #
     #####################################################
 
-    if frame_anterior == 0:
-        pass
-        ### COMIENZA A CONTAR
+    if frame_anterior != 0:
+        frame_anterior.destroy()
 
-    else:
-        frame_anterior.pack_forget()
         
 
     global aciertos
@@ -272,12 +269,13 @@ def jugar(root,frame_anterior,pregunta_numero,preguntas,respuesta_anterior):
             if (respuesta_anterior == preguntas[pregunta_numero - 1][2]):
                 aciertos += 1
 
-        frame_anterior.pack_forget()
+        frame_anterior.destroy()
+
         marco_juego = Frame(root)
         marco_juego.pack(pady=(50,0))
 
         if pregunta_numero == 16:
-            en_hora_buena(root)
+            en_hora_buena(root,marco_juego)
         
         else:
             next_pregunta = pregunta_numero + 1
@@ -344,7 +342,9 @@ def al_azar():
 
 
 
-def en_hora_buena(root):
+def en_hora_buena(root,frame_anterior):
+
+    frame_anterior.destroy()
     
     ### FINALIZA CRONOMETRO
 
