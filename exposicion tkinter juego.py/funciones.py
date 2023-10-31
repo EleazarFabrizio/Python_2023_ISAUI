@@ -50,10 +50,9 @@ def mostrar_alerta(mensaje):
 def encuesta(root,frame_anterior):
 
     style = ttk.Style()
-    style.configure("Treeview", font=("Helvetica", 20),rowheight=30)
-    style.configure("Treeview.Heading", font=("Helvetica", 30),rowheight=90,background="#005ad9")
+    style.configure("Treeview", font=("Velvetica 20"),rowheight=60)
+    style.configure("Treeview.Heading", font=("Velvetica 30 bold"),rowheight=10,background="#005ad9")
 
-    
 
     #####################################################
     # CONTROL DE FORGET. 0 SIGNIFICA QUE VIENE DEL MENU #
@@ -115,6 +114,7 @@ def encuesta(root,frame_anterior):
     def nombre_entry_clicked(event):
         if nombre_entry.get() == "Tu Nombre y/o Apellido":
             nombre_entry.delete(0, END)
+            nombre_entry.config(foreground="Black")
         
     ######
 
@@ -132,6 +132,7 @@ def encuesta(root,frame_anterior):
     def red_entry_clicked(event):
         if red_social_entry.get() == "Tu Instagram":
             red_social_entry.delete(0, END)
+            red_social_entry.config(foreground="Black")
         
     ######
 
@@ -154,7 +155,7 @@ def encuesta(root,frame_anterior):
     nombre_label = ttk.Label(marco_encuesta,text="Nombre : ",font=("Velvetica", 25))
     nombre_label.grid(row= 0, column=0,padx=(50,0),pady=(50,0))
 
-    nombre_entry = ttk.Entry(marco_encuesta, textvariable=nombre_entry_text ,font=("Velvetica", 25),width=50)
+    nombre_entry = ttk.Entry(marco_encuesta, textvariable=nombre_entry_text ,font=("Velvetica 30 bold"),width=50,foreground="#878787")
     nombre_entry.grid(row= 0, column=1,padx=(25,10),pady=(50,0))
 
     numero_nombre = ttk.Label(marco_encuesta,font=("Velvetica", 20),text=f"({len(nombre_entry.get())}/255)")
@@ -173,7 +174,7 @@ def encuesta(root,frame_anterior):
     red_social_label = ttk.Label(marco_encuesta,text="Red Social / Contacto : ",font=("Velvetica", 25))
     red_social_label.grid(row= 1, column=0,padx=(50,0),pady=(50,0))
 
-    red_social_entry = ttk.Entry(marco_encuesta,textvariable=red_entry_text,font=("Velvetica", 25),width=50)
+    red_social_entry = ttk.Entry(marco_encuesta,textvariable=red_entry_text,font=("Velvetica 30 bold"),width=50,foreground="#878787")
     red_social_entry.grid(row= 1, column=1,padx=(25,10),pady=(50,0))
 
     numero_red_social = ttk.Label(marco_encuesta,font=("Velvetica", 20),text=f"({len(red_social_entry.get())}/255)")
@@ -189,7 +190,7 @@ def encuesta(root,frame_anterior):
     # PLAY BUTTON #
     ###############
 
-    jugar_button = Button(marco_encuesta,text="JUGAR",font=("Velvetica", 25),command= lambda : jugar(root,marco_encuesta,0,preguntas_desorganizadas,''))
+    jugar_button = Button(marco_encuesta,text="JUGAR",font=("Velvetica 30 bold"),command= lambda : jugar(root,marco_encuesta,0,preguntas_desorganizadas,''),background="#005ad9",foreground="White", borderwidth=1, relief="raised", highlightthickness=0)
     jugar_button.grid(row=2,columnspan=3,pady=(75,50))
 
     
@@ -198,7 +199,7 @@ def encuesta(root,frame_anterior):
     # SCOREBOARD #
     ##############
 
-    score_board = ttk.Treeview(marco_encuesta, columns=("Codigo","Nombre","Instagram","Aciertos", "Tiempo", "Puntaje Total"),height=15)
+    score_board = ttk.Treeview(marco_encuesta, columns=("Codigo","Nombre","Instagram","Aciertos", "Tiempo", "Puntaje Total"),height=8)
 
     score_board.heading("#1", text="Codigo")
     score_board.heading("#2", text="Nombre")
@@ -356,7 +357,7 @@ def en_hora_buena(root,frame_anterior):
     tiempo_total = f"{int(minutos)} m : {int(segundos)} s : {int(milisegundos * 1000)} ms"
 
 
-    puntaje_total = aciertos*100 - round(tiempo_transcurrido/500 , 2)
+    puntaje_total = round(aciertos*100 - round(tiempo_transcurrido/500 , 2) , 2)
 
     #########################
 

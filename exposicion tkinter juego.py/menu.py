@@ -23,7 +23,6 @@ exit_button.pack(side=LEFT,anchor=N)
 
 
 
-
 encuesta(root,0)
 
 
