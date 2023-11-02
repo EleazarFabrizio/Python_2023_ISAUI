@@ -201,7 +201,7 @@ def encuesta(root,frame_anterior):
 
     score_board = ttk.Treeview(marco_encuesta, columns=("Codigo","Nombre","Instagram","Aciertos", "Tiempo", "Puntaje Total"),height=8)
 
-    score_board.heading("#1", text="Codigo")
+    score_board.heading("#1", text="Código")
     score_board.heading("#2", text="Nombre")
     score_board.heading("#3", text="Instagram")
     score_board.heading("#4", text="Aciertos")
